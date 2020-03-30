@@ -16,11 +16,26 @@ export const signOut = () => {
     }
 }
 
-export const addProperty = (formValues) => async (dispatch, getState) => {
+export const addProperty = (formValues,Image) => async (dispatch, getState) => {
+    console.log(formValues)
+    //formValues.set('Image',Image)
     const { userId } = getState().auth;
-    const response = await property.post('/addProperty', { ...formValues, userId });
-    dispatch({ type: 'ADD_PROPERTY', payload: response.data });
-    history.push('/');
+    const config={
+        headers:{
+            'content-type':'multipart/form-data'
+        }
+    }
+    
+    let formdata = new FormData();
+    formdata.append('HouseNo', formValues.HouseNo);
+    formdata.append('State', formValues.State);
+    formdata.append('City', formValues.City);
+    formdata.append('Price', formValues.Price);
+    formdata.append('Image',Image);
+    formdata.append('userId',userId)
+   const response = await property.post('/addProperty', formdata);
+   dispatch({ type: 'ADD_PROPERTY', payload: response.data });
+  history.push('/');
 }
 
 export const fetchProperties = () => async dispatch => {

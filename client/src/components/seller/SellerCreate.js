@@ -5,8 +5,9 @@ import SellerForm from './SellerForm';
 
 class SellerCreate extends React.Component {
 
-    onSubmit = (formValues) => {
-        this.props.addProperty(formValues);
+    onSubmit = (formValues,Image) => {
+        console.log('dnskjd',formValues,Image)
+        this.props.addProperty(formValues,Image);
     }
 
     render() {

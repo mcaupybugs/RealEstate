@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { signIn, signOut } from '../actions';
-import key from '../key/key';
+import key from '../keys/keys.json';
 import { Nav } from 'react-bootstrap';
 
 class GoogleAuth extends React.Component {
@@ -46,9 +46,7 @@ class GoogleAuth extends React.Component {
     }
 
     renderAuthButton() {
-        if (this.props.isSignedIn === null) {
-            return null;
-        } else if (this.props.isSignedIn) {
+        if (this.props.isSignedIn) {
             return (
                 <Nav.Link onClick={this.onSignOutClick} className="button">
                     <i className="google icon" />

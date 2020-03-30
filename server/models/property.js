@@ -5,7 +5,8 @@ var propertySchema = new mongoose.Schema({
     HouseNo: String,
     City: String,
     Price: Number,
-    userId: String
+    userId: String,
+    ImageUrl:String
 });
 
 var Property = mongoose.model("Property", propertySchema)

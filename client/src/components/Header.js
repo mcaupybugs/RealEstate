@@ -14,10 +14,12 @@ class Header extends React.Component {
                     </Nav>
                     <Nav>
 
-                        <GoogleAuth />
                     </Nav>
                 </Navbar.Collapse>
+                <GoogleAuth />
+                   
             </Navbar>
+
         )
     }
 }

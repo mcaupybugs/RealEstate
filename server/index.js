@@ -5,26 +5,62 @@ var cors = require('cors');
 var bodyParser = require('body-parser');
 var Property = require('./models/property');
 var User = require('./models/user');
-
-mongoose.connect("mongodb://localhost/property");
+var fs=require('fs')
+var imgbbUploader = require('imgbb-uploader');
+mongoose.connect("mongodb+srv://nipun:nipun@cluster0-wsbzn.mongodb.net/test?retryWrites=true&w=majority")
+    .then(() => {
+        console.log('enjoy buddy')
+    })
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-//create a property 
-app.post('/addProperty', (req, res) => {
-    Property.create(req.body, (err, newEntry) => {
-        if (err) {
-            res.status(404).send({ response: false });
-        } else {
-            res.status(200).send({
-                body: true
-            })
-        }
-    })
+const multer = require('multer')
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'upload')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
 })
+var upload = multer({ storage: storage })
+//create a property 
+app.post('/addProperty', upload.single('Image'), async (req, res) => {
+    
+    console.log(req.file.path)
 
+    console.log(req.body.userId)
+   await imgbbUploader("3c85336ea4a28e4419f4776bbdd78290", req.file.path)
+        .then((response) => {
+            fs.unlinkSync(req.file.path)
+            //   console.log(response)
+            console.log(response)
+            if(response.url){
+                console.log('errr');
+
+            }
+                const newProperty = new Property({
+                    State: req.body.State,
+                    HouseNo: req.body.HouseNo,
+                    City: req.body.City,
+                    Price: req.body.Price,
+                    userId: req.body.userId,
+                    ImageUrl:response.url
+                })
+                newProperty.save((err, newEntry) => {
+                    console.log(newEntry, err)
+                    if (err) {
+                        res.status(404).send({ response: false });
+                    } else {
+                        res.status(200).send({response:true})
+                    }
+                })
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+})
 //get the list of all the properties
 
 app.get('/propertyList', (req, res) => {

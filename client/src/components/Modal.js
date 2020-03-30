@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 const Modal = props => {
     return ReactDOM.createPortal(
-        <div onClick={props.onDismiss}>
+            <div onClick={props.onDismiss}>
             <div onClick={(e) => e.stopPropagation()}>
                 <div>
                     {props.title}

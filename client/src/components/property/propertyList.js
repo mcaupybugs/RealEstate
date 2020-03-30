@@ -7,7 +7,7 @@ class PropertyList extends React.Component {
     componentDidMount() {
         this.props.fetchProperties();
     }
-
+    
     renderAdmin(propert) {
         if (propert.userId === this.props.currentUserId) {
             return (
@@ -20,12 +20,13 @@ class PropertyList extends React.Component {
     }
 
     renderList() {
-        // console.log(this.props.property);
+         console.log(this.props.property);
+        console.log('nk')
         return this.props.property.map(propert => {
             return (
                 <div className="ui card" key={propert._id}>
                     <div className="image">
-                        <img src="https://image.shutterstock.com/image-photo/house-model-key-on-table-600w-1563481423.jpg"></img>
+                        <img src={`${propert.ImageUrl}`}></img>
                     </div>
                     <div className="content">
                         <Link className="header" to={`/property/${propert._id}`}>
