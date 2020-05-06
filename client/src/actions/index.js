@@ -16,26 +16,26 @@ export const signOut = () => {
     }
 }
 
-export const addProperty = (formValues,Image) => async (dispatch, getState) => {
+export const addProperty = (formValues, Image) => async (dispatch, getState) => {
     console.log(formValues)
     //formValues.set('Image',Image)
     const { userId } = getState().auth;
-    const config={
-        headers:{
-            'content-type':'multipart/form-data'
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
         }
     }
-    
+
     let formdata = new FormData();
     formdata.append('HouseNo', formValues.HouseNo);
     formdata.append('State', formValues.State);
     formdata.append('City', formValues.City);
     formdata.append('Price', formValues.Price);
-    formdata.append('Image',Image);
-    formdata.append('userId',userId)
-   const response = await property.post('/addProperty', formdata);
-   dispatch({ type: 'ADD_PROPERTY', payload: response.data });
-  history.push('/');
+    formdata.append('Image', Image);
+    formdata.append('userId', userId)
+    const response = await property.post('/addProperty', formdata);
+    dispatch({ type: 'ADD_PROPERTY', payload: response.data });
+    history.push('/');
 }
 
 export const fetchProperties = () => async dispatch => {
@@ -65,4 +65,16 @@ export const deleteProperty = (id) => async dispatch => {
     dispatch({ type: 'DELETE_PROPERTY', payload: id });
 
     history.push('/buyer');
+}
+export const AddToMyCart = (id,item) => async dispatch => {
+    console.log('ndjsnfknkdfndnkj')
+    console.log('my id is',id); 
+    await property.post(`/mycart/${id}`,(item))
+    dispatch({ type: 'ADD_TO_MY_CART', payload: item });
+    history.push('/buyer');
+}
+export const getMyCart=(id)=>async dispatch=>{
+    const res=await property.get(`/mycart/${id}`);
+    dispatch({type:'NEW_CART',payload:res.data});
+    history.push('/mycart')
 }

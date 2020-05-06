@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchProperties } from '../../actions';
+import { fetchProperties,AddToMyCart } from '../../actions';
 import { Link } from 'react-router-dom';
 
 class PropertyList extends React.Component {
     componentDidMount() {
         this.props.fetchProperties();
+        
     }
     
     renderAdmin(propert) {
@@ -20,7 +21,7 @@ class PropertyList extends React.Component {
     }
 
     renderList() {
-         console.log(this.props.property);
+         console.log(this.props);
         console.log('nk')
         return this.props.property.map(propert => {
             return (
@@ -36,6 +37,7 @@ class PropertyList extends React.Component {
                         <div className="description">Price = {propert.Price}</div>
                         {this.renderAdmin(propert)}
                     </div>
+                    <button onClick={()=>this.props.AddToMyCart(this.props.currentUserId,propert)}> Add To Cart</button>
                 </div>
             )
         })
@@ -58,5 +60,9 @@ const mapStateToProps = (state) => {
         isSignedIn: state.auth.isSignedIn
     }
 }
+const MapDispatchToProps=dispatch=>({
+    AddToMyCart:(id,item)=>dispatch(AddToMyCart(id,item)),
+    fetchProperties:()=>dispatch(fetchProperties())
+})
 
-export default connect(mapStateToProps, { fetchProperties })(PropertyList)
+export default connect(mapStateToProps, MapDispatchToProps)(PropertyList)

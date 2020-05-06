@@ -6,11 +6,16 @@ import BuyerPage from '../pages/BuyerPage';
 import SellerPage from '../pages/SellerPage';
 import SellerEdit from './seller/SellerEdit';
 import SellerDelete from './seller/SellerDelete';
-
+import MyCart    from './mycart/mycart'
+import {connect} from 'react-redux'
+import { getMyCart } from  '../actions/index'
 
 class App extends React.Component {
 
-
+    componentDidMount(){
+        
+    this.props.getMyCart(this.props.isSignedIn);
+    }
     render() {
         return (
             <div>
@@ -22,6 +27,7 @@ class App extends React.Component {
                             <Route path="/seller" exact component={SellerPage} />
                             <Route path="/seller/edit/:id" exact component={SellerEdit} />
                             <Route path="/seller/delete/:id" exact component={SellerDelete} />
+                            <Route path='/mycart' exact component={MyCart}/>
                         </Switch>
                     </div>
                 </Router>
@@ -29,5 +35,8 @@ class App extends React.Component {
         )
     }
 }
+const MapToProps=(state)=>{
+ return{   isSignedIn:state.auth.userId}
+}
 
-export default App;
+export default connect(MapToProps,{ getMyCart })(App);
