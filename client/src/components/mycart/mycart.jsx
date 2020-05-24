@@ -1,54 +1,68 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getMyCart } from '../../actions/index'
-import 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { getMyCart, RemoveFromMyCart } from '../../actions/index'
+import { PayMyPrice } from '../../actions';
+import Header from '../Header'
+import './mycart.style.scss';
 class MyCart extends React.Component {
-
-
-  componentDidMount() {
-    this.props.getMyCart(this.props.isSignedIn);
-    console.log('my cart is ', this.props.MyCart)
+  an = 0;
+  constructor() {
+    super();
+    this.state = {
+      ans: 0
+    }
+  }
+  async componentDidMount() {
+    await this.props.getMyCart(this.props.isSignedIn);
+    if (this.props.MyCart != undefined) {
+      console.log('mndksnfkndfknfkn ')
+      this.props.MyCart.map((value) => {
+        this.setState({
+          ans: this.state.ans + value.Price
+        })
+      })
+    }
   }
   render() {
 
     return (<div>
-      <nav
-      className="text-center text-primary navbar navbar-light bg-light">
-   <h1>   Your Cart</h1>
-  </nav>
       <div>
+        <Header />
       </div>
-      {this.props.isLoading == false ?
-        <div className='row my-3'>
+      <div className='bigOne'>
+        {this.props.isLoading == false ?
+          <div className='main1'>
 
-          {
-            this.props.MyCart ? this.props.MyCart.map((item) => <div className="card col-sm-3 ml-2 my-auto">
-              <img className="card-img-top" src={item.Property ? item.Property.ImageUrl : "..."} alt="Card image cap" />
-              <div className="card-body">
+            {
+              this.props.MyCart ? this.props.MyCart.map((item) => <div className="card col-sm-3 ml-2 my-auto">
+                <img className="card-img-top" src={item.ImageUrl} alt="Card image cap" />
+                <div className="card-body">
 
-                <h5 className="card-title">Current Price :{item.Property ? item.Property.Price:'0'}</h5>
-              <h4 className='card title'> Owned by :</h4>
-              <h4> Available till :</h4>
-                <button clasName='btn btn-danger'>Remove</button>
+                  <h5 className="card-title">Current Price :{item.Price}</h5>
+                  <h4 className='card title'> Owned by :{item.OwnedBy}</h4>
+                  <h4> Available till : {item.AvailableTill ? item.AvailableTill : 'be the first one to purchase'}</h4>
+                  <button onClick={() => this.props.RemoveFromMyCart(this.props.isSignedIn, item._id)} className='btn btn-danger'>Remove</button>
 
+                </div>  
               </div>
-            </div>
 
-            ) : null
-          }
-        </div>
-        : null}
-        <div className="row d-flex justify-content-center">
-            <button className='btn btn-primary' style={{
-            
-              width:'5%',
-              height:'100%'
-            }}>
-              Pay Now
+              ) : null
+            }
+
+          </div>
+          : null}
+        <div className="footer">
+          <p className='text-active'>
+            Total Price :{this.props.totalPrice}
+          </p>
+          <button className='btn btn-primary' onClick={() => this.props.PayMyPrice(this.props.isSignedIn, this.props.MyCart)} >
+
+            Pay Now
             </button>
         </div>
+      </div>
     </div>
+
     )
   }
 }
@@ -59,7 +73,13 @@ const mapStateToProps = (state) => {
     isSignedIn: state.auth.userId,
     MyCart: state.cart.MyCart,
     isLoading: state.cart.isLoading,
+    totalPrice: state.cart.totalPrice
   }
 }
+const mapDispatchToProps = dispatch => ({
+  PayMyPrice: (id, item) => dispatch(PayMyPrice(id, item)),
+  getMyCart: (id) => dispatch(getMyCart(id)),
+  RemoveFromMyCart: (id, id1) => dispatch(RemoveFromMyCart(id, id1))
+})
 
-export default connect(mapStateToProps, { getMyCart })(MyCart);
+export default connect(mapStateToProps, mapDispatchToProps)(MyCart);

@@ -9,12 +9,9 @@ import SellerDelete from './seller/SellerDelete';
 import MyCart    from './mycart/mycart'
 import {connect} from 'react-redux'
 import { getMyCart } from  '../actions/index'
-
 class App extends React.Component {
 
     componentDidMount(){
-        
-    this.props.getMyCart(this.props.isSignedIn);
     }
     render() {
         return (
@@ -27,7 +24,7 @@ class App extends React.Component {
                             <Route path="/seller" exact component={SellerPage} />
                             <Route path="/seller/edit/:id" exact component={SellerEdit} />
                             <Route path="/seller/delete/:id" exact component={SellerDelete} />
-                            <Route path='/mycart' exact component={MyCart}/>
+                            <Route path='/mycart' exact component={this.props.isSignedIn?MyCart:HomePage}/>
                         </Switch>
                     </div>
                 </Router>

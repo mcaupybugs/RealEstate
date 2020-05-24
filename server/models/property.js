@@ -6,7 +6,13 @@ var propertySchema = new mongoose.Schema({
     City: String,
     Price: Number,
     userId: String,
-    ImageUrl:String
+    ImageUrl:String,
+    OwnedBy:String,
+    AvailableTill:Date,
+    Users_Cart:[{
+            type:String
+        }
+    ]
 });
 
 var Property = mongoose.model("Property", propertySchema)

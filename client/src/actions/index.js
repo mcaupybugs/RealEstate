@@ -67,14 +67,34 @@ export const deleteProperty = (id) => async dispatch => {
     history.push('/buyer');
 }
 export const AddToMyCart = (id,item) => async dispatch => {
-    console.log('ndjsnfknkdfndnkj')
-    console.log('my id is',id); 
-    await property.post(`/mycart/${id}`,(item))
-    dispatch({ type: 'ADD_TO_MY_CART', payload: item });
+    // console.log('ndjsnfknkdfndnkj')
+    // console.log('my id is',id); 
+    // console.log(item)
+         const res=await property.post(`/mycart/${id}`,{id:item._id});
+    console.log(res) 
+    if(res.data){
+        console.log(res);
+        alert(res.data.msg);
+    }
     history.push('/buyer');
+}
+export const RemoveFromMyCart=(user_id,property_id)=>async dispatch=>{
+    console.log(user_id,property_id);
+    await property.post('/delete_from_cart',{user_id:user_id,property_id:property_id})
+    await getMyCart(user_id);
+    dispatch({type:'DELETE_MY_CART_ITEM',payload:{property_id}})
+    history.push('/mycart');
+}
+export const PayMyPrice=(id,data)=>async dispatch=>{
+    console.log('sdjkdnfkjdbjkfbsdj',{id:id,data:data});
+    await property.post('/pay',{id:id,data:data});
+    await getMyCart(id);
+    history.push('/mycart');
 }
 export const getMyCart=(id)=>async dispatch=>{
     const res=await property.get(`/mycart/${id}`);
-    dispatch({type:'NEW_CART',payload:res.data});
+    console.log(res.data)
+    dispatch({type:'NEW_CART',payload:{data:res.data}});
+    console.log(res.data)
     history.push('/mycart')
 }

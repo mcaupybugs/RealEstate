@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchProperties,AddToMyCart } from '../../actions';
 import { Link } from 'react-router-dom';
-
+import './propertyList.style.scss'
 class PropertyList extends React.Component {
     componentDidMount() {
         this.props.fetchProperties();
@@ -12,8 +12,8 @@ class PropertyList extends React.Component {
     renderAdmin(propert) {
         if (propert.userId === this.props.currentUserId) {
             return (
-                <div className="extra content">
-                    <Link className="ui button primary" to={`seller/edit/${propert._id}`}>Edit</Link>
+                <div className="extra content mt-3">
+                    <Link className="ui button primary " to={`seller/edit/${propert._id}`}>Edit</Link>
                     <Link className="ui button negative" to={`seller/delete/${propert._id}`}>Delete</Link>
                 </div>
             )
@@ -21,23 +21,22 @@ class PropertyList extends React.Component {
     }
 
     renderList() {
-         console.log(this.props);
-        console.log('nk')
         return this.props.property.map(propert => {
             return (
-                <div className="ui card" key={propert._id}>
-                    <div className="image">
+                <div className="card" key={propert._id}>
                         <img src={`${propert.ImageUrl}`}></img>
-                    </div>
-                    <div className="content">
                         <Link className="header" to={`/property/${propert._id}`}>
-                            <li>City = {propert.City}</li>
-                            <li>state = {propert.State}</li>
+                            Go For The House
                         </Link>
-                        <div className="description">Price = {propert.Price}</div>
+                            <li className='list-group-item  list-group-item-primary'>City : {propert.City}</li>
+                            <li className='list-group-item  list-group-item-light'>state : {propert.State}</li>
+                            <li className='list-group-item list-group-item-dark'>Owner : {propert.OwnedBy}</li>
+                            <li className='list-group-item  list-group-item-danger'>Price : {propert.Price}$/-</li>
+                            <li className='list-group-item  list-group-item-success'>Avilable For :{'Not Yet Bidded'}</li>
+
+                            
                         {this.renderAdmin(propert)}
-                    </div>
-                    <button onClick={()=>this.props.AddToMyCart(this.props.currentUserId,propert)}> Add To Cart</button>
+                    <button className='btn btn-primary'onClick={()=>this.props.AddToMyCart(this.props.currentUserId,propert)}> Add To Cart</button>
                 </div>
             )
         })
@@ -45,9 +44,9 @@ class PropertyList extends React.Component {
 
     render() {
         return (
-            <div className="ui container">
-                <h2>Property</h2>
-                <div className="ui link cards">{this.renderList()}</div>
+            <div className="main">
+                <h2 className='text'>Property</h2>
+                <div className="linkcards">{this.renderList()}</div>
             </div>
         )
     }

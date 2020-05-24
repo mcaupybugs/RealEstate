@@ -38,17 +38,17 @@ class SellerForm extends React.Component {
 
     render() {
         return (
-            <div class="me container card">
-                <h5 class="me card-header info-color white-text text-center py-4">
+            <div class="container card">
+                <h5 class="card-header info-color white-text text-center py-4">
                     <strong >Enter the details of Property</strong>
                 </h5>
                 <form class="ui form" onSubmit={this.props.handleSubmit(this.onSubmit)}>
                     <Field name="HouseNo" component={this.renderInput} label="Enter the address of the house" />
                     <Field name="State" component={this.renderInput} label="Enter the state of the house" />
-                    <Field name="City" component={this.renderInput} label="Enter the city" />
-                    <Field name="Price" component={this.renderInput} label="Enter the selling price" />
-                    <Field  component={this.renderImageInput} label="Enter the image" />
-                    <button class="me btn btn-success btn-lg">Submit</button>
+                    <Field name="City" component={this.renderInput} label= " Enter the city " />
+                    <Field name="Price" component={this.renderInput} label=" Enter the selling price" />
+                    <Field  component={this.renderImageInput} label=" Enter the image" />
+                    <button class="btn btn-success btn-lg">Submit</button>
                 </form>
             </div>
         )

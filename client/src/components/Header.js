@@ -5,25 +5,28 @@ import GoogleAuth from './GoogleAuth';
 import {connect} from 'react-redux'
 import MyCart from './mycart/mycart'
 class Header extends React.Component {
-    render() {
-        return (
-            <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-                <Navbar.Brand style={{ fontSize: 20 }} href="/">Home Seva</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Nav.Link style={{ fontSize: 20 }} className="button" href={this.props.link}>{this.props.label}</Nav.Link>
-                    </Nav>
-                    <Nav>
+    constructor(){
+        super();
 
-                    </Nav>
-                </Navbar.Collapse>
-            {
-                this.props.isSignedIn?<Link to='/mycart' className='btn btn-primary'>My Cart</Link>:null
-            }
-                <GoogleAuth />
-            
-            </Navbar>
+    }
+    
+    render() {
+        console.log('nsdjsak',this.props)
+        return (
+            <nav style={{fontSize:'25px',padding:'2%',color:'silver'}} className="navbar navbar-expand-lg navbar-dark bg-dark">
+           <img src='./property.png' width={50} />
+                <Link style={{color:'white',marginLeft:'1%'}}>Home Seva</Link>
+                    <div className="ml-auto navbar-nav">
+                        <Link className={`nav-item nav-link ${this.props.link=='/seller'?'active':''}`}to="/buyer">Buy</Link>
+                        <Link className={`nav-item nav-link ${this.props.link=='/buyer'?'active':''}`} to="/seller">Sell</Link>
+                        {
+                            this.props.isSignedIn ? <Link to='/mycart' className={`nav-item nav-link ${!this.props.link?'active':''}`}>My Cart</Link> : null
+                        }
+                        <GoogleAuth />
+
+                    </div>
+               
+            </nav>
 
         )
     }
