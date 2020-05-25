@@ -7,7 +7,7 @@ var Property = require('./models/property');
 var User = require('./models/user');
 var fs = require('fs')
 var imgbbUploader = require('imgbb-uploader');
-
+const path=require('path');
 mongoose.connect("mongodb+srv://nipun:nipun@cluster0-wsbzn.mongodb.net/test?retryWrites=true&w=majority")
     .then(() => {
         console.log('enjoy buddy')
@@ -15,7 +15,6 @@ mongoose.connect("mongodb+srv://nipun:nipun@cluster0-wsbzn.mongodb.net/test?retr
     .catch((err) => {
         console.log(err)
     })
-
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
