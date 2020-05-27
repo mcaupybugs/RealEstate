@@ -6,16 +6,16 @@ import './propertyList.style.scss'
 
 import ReactSearchBox from 'react-search-box'
 class PropertyList extends React.Component {
-    constructor(){
+    constructor() {
         super();
-        this.state={
-            property:[]
+        this.state = {
+            property: []
         }
     }
     async componentDidMount() {
         await this.props.fetchProperties();
         this.setState({
-            property:this.props.property
+            property: this.props.property
         })
     }
 
@@ -34,7 +34,7 @@ class PropertyList extends React.Component {
         return this.state.property.map(propert => {
             return (
                 <div className="card" key={propert._id}>
-                    <img src={`${propert.ImageUrl}`}></img>
+                    <img style={{ height: '300px', width: '300px' }} src={`${propert.ImageUrl}`}></img>
                     <Link className="header" to={`/property/${propert._id}`}>
                         Go For The House
                         </Link>
@@ -51,20 +51,20 @@ class PropertyList extends React.Component {
             )
         })
     }
-    MysearchBar(e){
-       let arr= this.props.property.filter((value)=>{
-            if(e.target.value.length==0){
+    MysearchBar(e) {
+        let arr = this.props.property.filter((value) => {
+            if (e.target.value.length == 0) {
                 return true;
             }
-            if(value.City.search(e.target.value)!=-1){
+            if (value.City.search(e.target.value) != -1) {
                 return true;
             }
-            else if(value.State.search(e.target.value)!=-1){
+            else if (value.State.search(e.target.value) != -1) {
                 return true;
             }
         })
         this.setState({
-            property:arr
+            property: arr
         })
     }
 
@@ -72,8 +72,8 @@ class PropertyList extends React.Component {
         return (
             <div className="main">
                 <h2 className='text'>Property</h2>
-                   
-        <input name='name' className='control'placeholder="Search Your City or State..." onChange={this.MysearchBar.bind(this)}  />
+
+                <input name='name' className='control' placeholder="Search Your City or State..." onChange={this.MysearchBar.bind(this)} />
                 <div className="linkcards">{this.renderList()}</div>
             </div>
         )
